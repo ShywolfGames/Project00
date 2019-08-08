@@ -23,7 +23,7 @@ public:
 	GameError(int code, const std::string &s) :errorCode(code), message(s) {}
 	GameError& operator=(const GameError& rhs) 
 	{
-	std:exception::operator=(rhs);
+	std::exception::operator=(rhs);
 		this->errorCode = rhs.errorCode;
 		this->message = rhs.message;
 	}

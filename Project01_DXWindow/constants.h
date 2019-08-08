@@ -8,6 +8,7 @@
 
 const char CLASS_NAME[] = "WinMain";
 const char GAME_TITLE[] = "DirectX Window";
+const bool FULLSCREEN = false;
 const UINT GAME_WIDTH = 640;
 const UINT GAME_HEIGHT = 480;
 
@@ -24,7 +25,7 @@ inline void safeRelease(T& ptr)
 #define SAFE_RELEASE safeRelease
 
 template<typename T>
-inline void safeRelease(T& ptr)
+inline void safeDelete(T& ptr)
 {
 	if (ptr)
 	{
@@ -35,7 +36,7 @@ inline void safeRelease(T& ptr)
 #define SAFE_DELETE safeDelete
 
 template<typename T>
-inline void safeRelease(T& ptr)
+inline void safeDeleteArray(T& ptr)
 {
 	if (ptr)
 	{

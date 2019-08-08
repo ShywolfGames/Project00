@@ -13,6 +13,52 @@ LRESULT WINAPI WinProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE hInst;
 Graphics *graphics;
 
+
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+#if defined(DEBUG) | defined(_DEBUG)
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
+
+	MSG msg;
+	HWND hwnd = NULL;
+
+	if (!CreateMainWindow(hwnd,hInstance, nCmdShow))
+		return 1;
+	try {
+		graphics = new Graphics;
+		graphics->initialize(hwnd, GAME_WIDTH, GAME_HEIGHT, FULLSCREEN);
+
+		int done = 0;
+		while (!done)
+		{
+			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+			{
+				if (msg.message == WM_QUIT)
+					done = 1;
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+
+			}
+			else
+				graphics->showBackBuffer();
+
+		}
+		safeDelete(graphics);
+		return msg.wParam;
+	}
+	catch (const GameError &err)
+	{
+		MessageBox(NULL, err.getMessage(),"Error", MB_OK);
+	}
+	catch (...)
+	{
+		MessageBox(NULL, "Unknown Error Occured in Game","Error", MB_OK);
+	}
+	safeDelete(graphics);
+	return 0;
+}
 LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
@@ -23,10 +69,10 @@ LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
-bool CreateMainWindow(HWND &hwnd,HINSTANCE hInstance, int nCmdShow)
+bool CreateMainWindow(HWND &hwnd, HINSTANCE hInstance, int nCmdShow)
 {
 	WNDCLASSEX wcx;
-	HWND hwnd;
+	
 
 	wcx.cbSize = sizeof(wcx);
 	wcx.style = CS_HREDRAW | CS_VREDRAW;
@@ -55,23 +101,4 @@ bool CreateMainWindow(HWND &hwnd,HINSTANCE hInstance, int nCmdShow)
 	UpdateWindow(hwnd);
 	return true;
 
-}
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-{
-	MSG msg;
-	if (!CreateMainWIndow(hInstance, nCmdShow))
-		return false;
-	int done = 0;
-	while (!done)
-	{
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-		{
-			if (msg.message == WM_QUIT)
-				done = 1;
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-
-		}
-	}
-	return msg.wParam;
 }
