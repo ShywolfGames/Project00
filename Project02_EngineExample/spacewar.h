@@ -6,8 +6,20 @@
 class Spacewar;
 
 
-class Spacewar
+class Spacewar : public Game
 {
+private:
+
+public:
+	Spacewar();
+	virtual ~Spacewar();
+	void intialize(HWND hw);
+	void update();
+	void ai();
+	void collisions();
+	void render();
+	void releaseAll();
+	void resetAll();
 
 };
 #endif

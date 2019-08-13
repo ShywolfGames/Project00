@@ -75,3 +75,18 @@ HRESULT Graphics::showBackBuffer()
 	result = device3d->Present(NULL, NULL, NULL, NULL);
 	return result;
 }
+
+bool Graphics::isAdapterCompatible()
+{
+	return false;
+}
+
+HRESULT Graphics::reset()
+{
+	return E_NOTIMPL;
+}
+
+HRESULT Graphics::getDeviceState()
+{
+	return E_NOTIMPL;
+}

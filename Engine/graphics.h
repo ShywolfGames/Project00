@@ -29,6 +29,8 @@ private:
 	bool fullscreen;
 	int width;
 	int height;
+	COLOR_ARGB backColor;
+
 	void initD3Dpp();
 public:
 	Graphics();
@@ -36,7 +38,30 @@ public:
 	void releaseAll();
 	void initialize(HWND hw,int width, int height,bool fullscreen);
 	HRESULT showBackBuffer();
+	bool isAdapterCompatible();
+	HRESULT reset();
+	LP_3D get3D() { return direct3d; }
+	LP_3DDEVICE get3Ddevice() { return device3d; }
+	HDC getDC() { return GetDC(hwnd); }
+	HRESULT getDeviceState();
+	void setBackColor(COLOR_ARGB c) { backColor = c; }
 
+	HRESULT begineScene()
+	{
+		result = E_FAIL;
+		if (device3d == NULL)
+			return result;
+		device3d->Clear(0, NULL, D3DCLEAR_TARGET, backColor, 1.0f, 0);
+		result = device3d->BeginScene();
+		return result;
+	}
+	HRESULT endScene()
+	{
+		result = E_FAIL;
+		if (device3d)
+			result = device3d->EndScene();
+		return result;
+	}
 };
 
 #endif
