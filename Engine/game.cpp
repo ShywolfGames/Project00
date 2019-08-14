@@ -79,10 +79,81 @@ LRESULT Game::messageHandler(HWND hw, UINT msg, WPARAM wParam, LPARAM lParam)
 
 void Game::initialize(HWND hw)
 {
+	hwnd = hw;
+	graphics = new Graphics();
+	graphics->initialize(hwnd, GAME_WIDTH, GAME_HEIGHT, FULLSCREEN);
+	input->initialize(hwnd, false);
+	if (QueryPerformanceFrequency(&timerFreq) == false)
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing high resolution timer"));
+	QueryPerformanceCounter(&timeStart);
+	initialized = true;
 }
+void Game::renderGame()
+{
+	if (SUCCEEDED(graphics->begineScene()))
+	{
+		render();
 
+		graphics->endScene();
+	}
+	handleLostGraphicsDevice();
+	graphics->showBackBuffer();
+}
+void Game::handleLostGraphicsDevice()
+{
+	hr = graphics->getDeviceState();
+	if (FAILED(hr))
+	{
+
+		if (hr== D3DERR_DEVICELOST)
+		{
+			Sleep(100);
+			return;
+		}
+		else if (hr == D3DERR_DEVICENOTRESET)
+		{
+			releaseAll();
+			hr = graphics->reset();
+			if (FAILED(hr))
+				return;
+			resetAll();
+		}
+		else
+			return;
+		
+		}
+}
 void Game::run(HWND)
 {
+	if (graphics == NULL)
+		return;
+	QueryPerformanceCounter(&timeEnd);
+	frameTime = (float)(timeEnd.QuadPart - timeStart.QuadPart) /
+		(float)timerFreq.QuadPart;
+	if (frameTime < MIN_FRAME_TIME)
+	{
+		sleepTime = (DWORD)((MIN_FRAME_TIME - frameTime) * 1000);
+		timeBeginPeriod(1);
+		Sleep(sleepTime);
+		timeEndPeriod(1);
+		return;
+	}
+	if (frameTime > 0.0)
+		fps = (fps*0.99f) + (0.01f / frameTime);
+	if (frameTime > MAX_FRAME_TIME)
+		frameTime = MAX_FRAME_TIME;
+	timeStart = timeEnd;
+	if (!paused)
+	{
+		update();
+		ai();
+		collisions();
+		input->vibrateControllers(frameTime);
+	}
+	renderGame();
+	input->readControllers();
+
+	input->clear(inputNS::KEYS_PRESSED);
 }
 
 void Game::releaseAll()
@@ -95,12 +166,13 @@ void Game::resetAll()
 
 void Game::deleteAll()
 {
+	releaseAll();
+	safeDelete(graphics);
+	safeDelete(input);
+	initialized = false;
+
 }
 
-void Game::renderGame()
-{
-}
 
-void Game::handleLostGraphicsDevice()
-{
-}
+
+

@@ -128,7 +128,7 @@ public:
 	bool getMouseX1Button() const { return mouseX1Button; }
 	bool getMouseX2Button() const { return mouseX2Button; }
 	void checkControllers();
-	void readCOntrollers();
+	void readControllers();
 	void setThumbstickDeadzone(short dz) { thumbstickDeadzone = abs(dz); }
 	void setTriggerDeadzone(BYTE dz) { triggerDeadzone = dz; }
 	short getThumbstickDeadzone() { return static_cast<BYTE>(triggerDeadzone); }
@@ -303,6 +303,7 @@ public:
 		controllers[n].vibration.wRightMotorSpeed = speed;
 		controllers[n].vibrateTimeRight = sec;
 	}
+	void vibrateControllers(float frameTime);
 
 };
 #endif

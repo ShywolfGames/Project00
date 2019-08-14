@@ -1,43 +1,4 @@
 #include "input.h"
-
-BYTE Input::getGamepadLeftTrigger(UINT n)
-{
-	return 0;
-}
-
-BYTE Input::getGamepadRightTrigger(UINT n)
-{
-	return 0;
-}
-
-BYTE Input::getGamepadThumbLX(UINT n)
-{
-	return 0;
-}
-
-BYTE Input::getGamepadThumbLY(UINT n)
-{
-	return 0;
-}
-
-BYTE Input::getGamepadThumbRX(UINT n)
-{
-	return 0;
-}
-
-BYTE Input::getGamepadThumbRY(UINT n)
-{
-	return 0;
-}
-
-void Input::checkControllers()
-{
-}
-
-void Input::readCOntrollers()
-{
-}
-
 Input::Input()
 {
 }
@@ -84,6 +45,49 @@ void Input::clearKeyPress(UCHAR vkey)
 void Input::clear(UCHAR what)
 {
 }
+BYTE Input::getGamepadLeftTrigger(UINT n)
+{
+	return 0;
+}
+
+BYTE Input::getGamepadRightTrigger(UINT n)
+{
+	return 0;
+}
+
+BYTE Input::getGamepadThumbLX(UINT n)
+{
+	return 0;
+}
+
+BYTE Input::getGamepadThumbLY(UINT n)
+{
+	return 0;
+}
+
+BYTE Input::getGamepadThumbRX(UINT n)
+{
+	return 0;
+}
+
+BYTE Input::getGamepadThumbRY(UINT n)
+{
+	return 0;
+}
+
+void Input::vibrateControllers(float frameTime)
+{
+}
+
+void Input::checkControllers()
+{
+}
+
+void Input::readControllers()
+{
+}
+
+
 
 void Input::mouseIn(LPARAM)
 {
