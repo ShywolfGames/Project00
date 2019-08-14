@@ -82,6 +82,7 @@ public:
 	void initialize(HWND hw, bool capt);
 	void keyDown(WPARAM);
 	void keyUp(WPARAM);
+	void keyIn(WPARAM);
 	bool isKeyDown(UCHAR vkey)const;
 	bool wasKeyPressed(UCHAR vkey)const;
 	bool anyKeyPressed()const;

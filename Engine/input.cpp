@@ -58,6 +58,10 @@ void Input::keyUp(WPARAM)
 {
 }
 
+void Input::keyIn(WPARAM)
+{
+}
+
 bool Input::isKeyDown(UCHAR vkey) const
 {
 	return false;

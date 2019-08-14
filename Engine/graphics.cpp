@@ -54,6 +54,15 @@ void Graphics::initialize(HWND hw, int w, int h, bool full)
 	if (direct3d == NULL)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error Initializing D3D"));
 	initD3Dpp();
+
+	if (fullscreen)
+	{
+		if (isAdapterCompatible())
+			d3dpp.FullScreen_RefreshRateInHz = pMode.RefreshRate;
+		else
+			throw(GameError(gameErrorNS::FATAL_ERROR, "The device does not support resolution or format"));
+	}
+
 	D3DCAPS9 caps;
 	DWORD behavior;
 	result = direct3d->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps);
@@ -78,15 +87,29 @@ HRESULT Graphics::showBackBuffer()
 
 bool Graphics::isAdapterCompatible()
 {
+	UINT modes = direct3d->GetAdapterModeCount(D3DADAPTER_DEFAULT, d3dpp.BackBufferFormat);
+	for (UINT i = 0; i < modes; i++)
+	{
+		result = direct3d->EnumAdapterModes(D3DADAPTER_DEFAULT, d3dpp.BackBufferFormat, i, &pMode);
+		if (pMode.Height == d3dpp.BackBufferHeight && pMode.Width == d3dpp.BackBufferWidth &&
+			pMode.RefreshRate >= d3dpp.FullScreen_RefreshRateInHz)
+			return true;
+	}
 	return false;
 }
 
 HRESULT Graphics::reset()
 {
-	return E_NOTIMPL;
+	initD3Dpp();
+	result = device3d->Reset(&d3dpp);
+	return result;
 }
 
 HRESULT Graphics::getDeviceState()
 {
-	return E_NOTIMPL;
+	result = E_FAIL;
+	if (device3d == NULL)
+		return result;
+	result = device3d->TestCooperativeLevel();
+	return result;
 }
