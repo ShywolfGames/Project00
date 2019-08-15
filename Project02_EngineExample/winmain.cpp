@@ -23,12 +23,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 
 	MSG msg;
-	HWND hwnd = NULL;
+	game = new Spacewar;
 
 	if (!CreateMainWindow(hwnd,hInstance, nCmdShow))
 		return 1;
 	try {
-		game = new Spacewar;
+		
 		game->initialize(hwnd);
 
 		int done = 0;
@@ -97,8 +97,7 @@ bool CreateMainWindow(HWND &hwnd, HINSTANCE hInstance, int nCmdShow)
 	else
 		style = WS_OVERLAPPEDWINDOW;
 
-	hwnd = CreateWindow(
-		CLASS_NAME, GAME_TITLE, style, CW_USEDEFAULT, CW_USEDEFAULT, GAME_WIDTH, GAME_HEIGHT, (HWND)NULL, (HMENU)NULL, hInstance, (LPVOID)NULL);
+	hwnd = CreateWindow(CLASS_NAME, GAME_TITLE, style, CW_USEDEFAULT, CW_USEDEFAULT, GAME_WIDTH, GAME_HEIGHT, (HWND)NULL, (HMENU)NULL, hInstance, (LPVOID)NULL);
 
 	if (!hwnd)
 	{
@@ -108,7 +107,7 @@ bool CreateMainWindow(HWND &hwnd, HINSTANCE hInstance, int nCmdShow)
 	{
 		RECT clientRect;
 		GetClientRect(hwnd, &clientRect);
-		MoveWindow(hwnd, 0, 0, GAME_WIDTH + (GAME_WIDTH - clientRect.right), +(GAME_HEIGHT - clientRect.bottom), TRUE);
+		MoveWindow(hwnd, 0, 0, GAME_WIDTH + (GAME_WIDTH - clientRect.right), GAME_HEIGHT +(GAME_HEIGHT - clientRect.bottom), TRUE);
 	}
 	ShowWindow(hwnd, nCmdShow);
 	

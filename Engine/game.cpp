@@ -16,6 +16,7 @@ Game::~Game()
 
 LRESULT Game::messageHandler(HWND hw, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	
 	if (initialized)
 	{
 		switch (msg)
@@ -31,13 +32,13 @@ LRESULT Game::messageHandler(HWND hw, UINT msg, WPARAM wParam, LPARAM lParam)
 			return 0;
 		case WM_CHAR:
 			input->keyIn(wParam);
-				return 0;
+			return 0;
 		case WM_MOUSEMOVE:
 			input->mouseIn(lParam);
-				return 0;
+			return 0;
 		case WM_INPUT:
 			input->mouseRawIn(lParam);
-				return 0;
+			return 0;
 		case WM_LBUTTONDOWN:
 			input->setMouseLButton(true);
 			input->mouseIn(lParam);
@@ -53,15 +54,15 @@ LRESULT Game::messageHandler(HWND hw, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_RBUTTONUP:
 			input->setMouseRButton(false);
 			input->mouseIn(lParam);
-			return 0; 
+			return 0;
 		case WM_MBUTTONDOWN:
-				input->setMouseMButton(true);
-				input->mouseIn(lParam);
-				return 0;
+			input->setMouseMButton(true);
+			input->mouseIn(lParam);
+			return 0;
 		case WM_MBUTTONUP:
-				input->setMouseMButton(false);
-				input->mouseIn(lParam);
-				return 0;
+			input->setMouseMButton(false);
+			input->mouseIn(lParam);
+			return 0;
 		case WM_XBUTTONDOWN: case WM_XBUTTONUP:
 			input->setMouseXButton(wParam);
 			input->mouseIn(lParam);
@@ -74,6 +75,7 @@ LRESULT Game::messageHandler(HWND hw, UINT msg, WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 	}
+	
 	return DefWindowProc(hw,msg,wParam,lParam);
 }
 

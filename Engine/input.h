@@ -59,6 +59,7 @@ private:
 	bool keysPressed[inputNS::KEYS_ARRAY_LEN];
 	std::string textIn;
 	char charIn;
+	bool newLine;
 	int mouseX;
 	int mouseY;
 	int mouseRawX;
@@ -80,9 +81,9 @@ public:
 	Input();
 	virtual ~Input();
 	void initialize(HWND hw, bool capt);
-	void keyDown(WPARAM);
-	void keyUp(WPARAM);
-	void keyIn(WPARAM);
+	void keyDown(WPARAM wParam);
+	void keyUp(WPARAM wParam);
+	void keyIn(WPARAM wParam);
 	bool isKeyDown(UCHAR vkey)const;
 	bool wasKeyPressed(UCHAR vkey)const;
 	bool anyKeyPressed()const;
@@ -92,9 +93,9 @@ public:
 	void clearTextIn() { textIn.clear(); }
 	void clearCharIn() { charIn = 0;}
 	std::string getTextIn() { return textIn; }
-	void mouseIn(LPARAM);
-	void mouseRawIn(LPARAM);
-	void mouseWheelIn(WPARAM);
+	void mouseIn(LPARAM lParam);
+	void mouseRawIn(LPARAM lParam);
+	void mouseWheelIn(WPARAM wParam);
 	void setMouseLButton(bool b) { mouseLButton = b; }
 	void setMouseRButton(bool b) { mouseRButton = b; }
 	void setMouseMButton(bool b) { mouseMButton = b; }
@@ -279,7 +280,7 @@ public:
 		return controllers[n].state.Gamepad.sThumbRX;
 	}
 	BYTE getGamepadThumbRY(UINT n);
-	bool getGamepadTHumbRYUndead(UINT n)
+	bool getGamepadThumbRYUndead(UINT n)
 	{
 		if (n > MAX_CONTROLLERS - 1)
 			n = MAX_CONTROLLERS - 1;
