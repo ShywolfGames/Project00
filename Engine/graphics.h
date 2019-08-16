@@ -104,7 +104,7 @@ public:
 	void drawSprite(const SpriteData &spriteData, COLOR_ARGB color = graphicsNS::WHITE);
 	void changeDisplayMode(graphicsNS::DISPLAY_MODE mode = graphicsNS::TOGGLE);
 	LP_SPRITE getSprite() { return sprite; }
-
+	bool    getFullscreen() { return fullscreen; }
 
 
 

@@ -78,12 +78,16 @@ void Graphics::initialize(HWND hw, int w, int h, bool full)
 	result = direct3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, behavior, &d3dpp, &device3d);
 	if(FAILED(result))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error Creating D3D device"));
+	result = D3DXCreateSprite(device3d, &sprite);
+
+	if(FAILED(result))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error Creating D3DSprite"));
 }
 
 HRESULT Graphics::showBackBuffer()
 {
 	result = E_FAIL;
-	device3d->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 255, 0), 0.0f, 0);
+	//device3d->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 255, 0), 0.0f, 0);
 	result = device3d->Present(NULL, NULL, NULL, NULL);
 	return result;
 }

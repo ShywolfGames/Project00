@@ -33,6 +33,12 @@
     <ClInclude Include="Planets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Engine\image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\textureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Engine\game.cpp">
@@ -48,6 +54,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="winmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\textureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

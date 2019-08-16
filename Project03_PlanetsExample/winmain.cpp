@@ -10,7 +10,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int);
 bool CreateMainWindow(HWND &, HINSTANCE, int);
 LRESULT WINAPI WinProc(HWND, UINT, WPARAM, LPARAM);
 
-HINSTANCE hInst;
+//HINSTANCE hInst;
 Planets *game = NULL;
 HWND hwnd = NULL;
 
@@ -23,7 +23,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 
 	MSG msg;
-	game = new Planets;
+	game = new Planets();
 
 	if (!CreateMainWindow(hwnd,hInstance, nCmdShow))
 		return 1;
@@ -69,7 +69,7 @@ LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	
 	return (game->messageHandler(hWnd, msg, wParam, lParam));
 }
-bool CreateMainWindow(HWND &hwnd, HINSTANCE hInstance, int nCmdShow)
+bool CreateMainWindow(HWND &hWnd, HINSTANCE hInstance, int nCmdShow)
 {
 	WNDCLASSEX wcx;
 	
@@ -97,19 +97,19 @@ bool CreateMainWindow(HWND &hwnd, HINSTANCE hInstance, int nCmdShow)
 	else
 		style = WS_OVERLAPPEDWINDOW;
 
-	hwnd = CreateWindow(CLASS_NAME, GAME_TITLE, style, CW_USEDEFAULT, CW_USEDEFAULT, GAME_WIDTH, GAME_HEIGHT, (HWND)NULL, (HMENU)NULL, hInstance, (LPVOID)NULL);
+	hWnd = CreateWindow(CLASS_NAME, GAME_TITLE, style, CW_USEDEFAULT, CW_USEDEFAULT, GAME_WIDTH, GAME_HEIGHT, (HWND)NULL, (HMENU)NULL, hInstance, (LPVOID)NULL);
 
-	if (!hwnd)
+	if (!hWnd)
 	{
 		return false;
 	}
 	if (!FULLSCREEN)
 	{
 		RECT clientRect;
-		GetClientRect(hwnd, &clientRect);
-		MoveWindow(hwnd, 0, 0, GAME_WIDTH + (GAME_WIDTH - clientRect.right), GAME_HEIGHT +(GAME_HEIGHT - clientRect.bottom), TRUE);
+		GetClientRect(hWnd, &clientRect);
+		MoveWindow(hWnd, 0, 0, GAME_WIDTH + (GAME_WIDTH - clientRect.right), GAME_HEIGHT +(GAME_HEIGHT - clientRect.bottom), TRUE);
 	}
-	ShowWindow(hwnd, nCmdShow);
+	ShowWindow(hWnd, nCmdShow);
 	
 	return true;
 

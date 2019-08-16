@@ -9,11 +9,6 @@
 #include"constants.h"
 #include"gameError.h"
 
-class Game;
-
-
-
-
 class Game
 {
 protected:
@@ -40,6 +35,7 @@ public:
 	virtual void deleteAll();
 	virtual void renderGame();
 	virtual void handleLostGraphicsDevice();
+	void setDisplayMode(graphicsNS::DISPLAY_MODE mode = graphicsNS::TOGGLE);
 	Graphics * getGraphics() { return graphics; }
 	Input* getInput() { return input; }
 	void exitGame() { PostMessage(hwnd, WM_DESTROY, 0, 0); }

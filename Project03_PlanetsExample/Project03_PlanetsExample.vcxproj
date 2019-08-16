@@ -124,13 +124,17 @@
     <ClInclude Include="..\Engine\game.h" />
     <ClInclude Include="..\Engine\gameError.h" />
     <ClInclude Include="..\Engine\graphics.h" />
+    <ClInclude Include="..\Engine\image.h" />
     <ClInclude Include="..\Engine\input.h" />
+    <ClInclude Include="..\Engine\textureManager.h" />
     <ClInclude Include="Planets.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Engine\game.cpp" />
     <ClCompile Include="..\Engine\graphics.cpp" />
+    <ClCompile Include="..\Engine\image.cpp" />
     <ClCompile Include="..\Engine\input.cpp" />
+    <ClCompile Include="..\Engine\textureManager.cpp" />
     <ClCompile Include="Planets.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>

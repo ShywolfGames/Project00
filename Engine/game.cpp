@@ -125,6 +125,12 @@ void Game::handleLostGraphicsDevice()
 		
 		}
 }
+void Game::setDisplayMode(graphicsNS::DISPLAY_MODE mode)
+{
+	releaseAll();                  
+	graphics->changeDisplayMode(mode);
+	resetAll();                     
+}
 void Game::run(HWND)
 {
 	if (graphics == NULL)
@@ -154,6 +160,12 @@ void Game::run(HWND)
 	}
 	renderGame();
 	input->readControllers();
+
+	if (input->isKeyDown(ALT_KEY) && input->wasKeyPressed(ENTER_KEY))
+		setDisplayMode(graphicsNS::TOGGLE); 
+
+	if (input->isKeyDown(ESC_KEY))
+		setDisplayMode(graphicsNS::WINDOW); 
 
 	input->clear(inputNS::KEYS_PRESSED);
 }
