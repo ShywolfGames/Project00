@@ -78,7 +78,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>d3d9.lib;winmm.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;winmm.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,7 +120,9 @@
   <ItemGroup>
     <ClCompile Include="..\Engine\game.cpp" />
     <ClCompile Include="..\Engine\graphics.cpp" />
+    <ClCompile Include="..\Engine\image.cpp" />
     <ClCompile Include="..\Engine\input.cpp" />
+    <ClCompile Include="..\Engine\textureManager.cpp" />
     <ClCompile Include="spacewar.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
@@ -129,7 +131,9 @@
     <ClInclude Include="..\Engine\game.h" />
     <ClInclude Include="..\Engine\gameError.h" />
     <ClInclude Include="..\Engine\graphics.h" />
+    <ClInclude Include="..\Engine\image.h" />
     <ClInclude Include="..\Engine\input.h" />
+    <ClInclude Include="..\Engine\textureManager.h" />
     <ClInclude Include="spacewar.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
