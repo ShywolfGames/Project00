@@ -86,10 +86,10 @@ public:
 	virtual void  setVelocity(VECTOR2 v) { velocity = v; }
 	virtual void  setDeltaV(VECTOR2 dv) { deltaV = dv; }
 	virtual void  setActive(bool a) { active = a; }
-	virtual void setHealth(float h) { health = h; }
+	virtual void  setHealth(float h) { health = h; }
 	virtual void  setMass(float m) { mass = m; }
 	virtual void  setGravity(float g) { gravity = g; }
-	virtual void setCollisionRadius(float r) { radius = r; }
+	virtual void  setCollisionRadius(float r) { radius = r; }
 
 	virtual void update(float frameTime);
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols,

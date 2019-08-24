@@ -129,6 +129,8 @@
     <ClInclude Include="..\Engine\input.h" />
     <ClInclude Include="..\Engine\textureManager.h" />
     <ClInclude Include="EntityCollision.h" />
+    <ClInclude Include="planet.h" />
+    <ClInclude Include="ship.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Engine\entity.cpp" />
@@ -138,6 +140,8 @@
     <ClCompile Include="..\Engine\input.cpp" />
     <ClCompile Include="..\Engine\textureManager.cpp" />
     <ClCompile Include="EntityCollision.cpp" />
+    <ClCompile Include="planet.cpp" />
+    <ClCompile Include="ship.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
