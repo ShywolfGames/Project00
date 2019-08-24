@@ -75,6 +75,7 @@ bool Entity::collideCircle(Entity & ent, VECTOR2 & collisionVector)
 	if (distSquared.x+ distSquared.y <= sumRadiiSquared)
 	{
 		collisionVector = *ent.getCenter() - *getCenter();
+		return true;
 	}
 	return false;
 }
@@ -101,6 +102,7 @@ bool Entity::collideRotateBox(Entity & ent, VECTOR2 & collisionVector)
 	if (projectionsOverlap(ent) && ent.projectionsOverlap(*this))
 	{
 		collisionVector = *ent.getCenter() - *getCenter();
+		return true;
 	}
 	return false;
 }
