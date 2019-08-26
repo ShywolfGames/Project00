@@ -17,6 +17,7 @@ class Entity : public Image
 protected:
 	entityNS::COLLISION_TYPE collisionType;
 	VECTOR2 center;
+	VECTOR2 collisionCenter;
 	float radius;
 	VECTOR2 distSquared;    
 	float   sumRadiiSquared;
@@ -51,7 +52,10 @@ public:
 		center = VECTOR2(getCenterX(), getCenterY());
 		return &center;
 	}
-
+	virtual const VECTOR2* getCollisionCenter()
+	{
+		return &collisionCenter;
+	}
 	// Return radius of collision circle.
 	virtual float getRadius() const { return radius; }
 
@@ -83,7 +87,7 @@ public:
 
 	// Return collision type (NONE, CIRCLE, BOX, ROTATED_BOX)
 	virtual entityNS::COLLISION_TYPE getCollisionType() { return collisionType; }
-
+	virtual void setCollisionCenter(VECTOR2 cc) { collisionCenter = cc; }
 	virtual void  setVelocity(VECTOR2 v) { velocity = v; }
 	virtual void  setDeltaV(VECTOR2 dv) { deltaV = dv; }
 	virtual void  setActive(bool a) { active = a; }

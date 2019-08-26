@@ -93,6 +93,7 @@ public:
 	void clearTextIn() { textIn.clear(); }
 	void clearCharIn() { charIn = 0;}
 	std::string getTextIn() { return textIn; }
+	char getCharIn() { return charIn; }
 	void mouseIn(LPARAM lParam);
 	void mouseRawIn(LPARAM lParam);
 	void mouseWheelIn(WPARAM wParam);

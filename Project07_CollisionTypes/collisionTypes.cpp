@@ -108,11 +108,25 @@ void CollisionTypes::update()
 		if (input->isKeyDown(SHIP_RIGHT_KEY))  // if turn ship0 right
 			ship.rotate(shipNS::RIGHT);
 	}
+
 	rectangle.update(frameTime);
 	square.update(frameTime);
 	circle.update(frameTime);
 	ship.update(frameTime);
 	line.update(frameTime);
+
+	if (input->getCharIn() == '1')
+	{
+		ship.setEdge(COLLISION_RECTANGLE);
+		ship.setCollisionType(entityNS::ROTATED_BOX);
+	}
+	if (input->getCharIn() == '2')
+	{
+		ship.setEdge(COLLISION_BOX);
+		ship.setCollisionType(entityNS::BOX);
+	}
+	if (input->getCharIn() == '3')
+		ship.setCollisionType(entityNS::CIRCLE);
 }
 void CollisionTypes::ai()
 {
@@ -120,9 +134,36 @@ void CollisionTypes::ai()
 
 void CollisionTypes::collisions()
 {
-	VECTOR2 collisionVector;
+	collisionVector.x = 0;
+	collisionVector.y = 0;
+	ship.setCollision(false);
+	rectangle.setCollision(false);
+	square.setCollision(false);
+	circle.setCollision(false);
 
-
+	if (ship.collidesWith(rectangle,collisionVector))
+	{
+		ship.setCollision(true);
+		rectangle.setCollision(true);
+		lineEnds[1].x=rectangle.getCollisionCenter()->x;
+		lineEnds[1].y=rectangle.getCollisionCenter()->y;
+	}
+	if (ship.collidesWith(square, collisionVector))
+	{
+		ship.setCollision(true);
+		square.setCollision(true);
+		lineEnds[1].x= square.getCollisionCenter()->x;
+		lineEnds[1].y= square.getCollisionCenter()->y;
+	}
+	if (ship.collidesWith(circle, collisionVector))
+	{
+		ship.setCollision(true);
+		circle.setCollision(true);
+		lineEnds[1].x= circle.getCollisionCenter()->x;
+		lineEnds[1].y= circle.getCollisionCenter()->y;
+	}
+	lineEnds[0].x=ship.getCollisionCenter()->x;
+	lineEnds[0].y=ship.getCollisionCenter()->y;
 }
 
 void CollisionTypes::render()
@@ -133,7 +174,73 @@ void CollisionTypes::render()
 		menu.draw();
 	else 
 	{
+		if (rectangle.getCollision())      
+			rectangle.draw(graphicsNS::RED & graphicsNS::ALPHA50);   
+		else
+			rectangle.draw(graphicsNS::GREEN);
+
+		if (square.getCollision())          
+			square.draw(graphicsNS::RED & graphicsNS::ALPHA50);   
+		else
+			square.draw(graphicsNS::YELLOW);
+
+		if (circle.getCollision())           
+			circle.draw(graphicsNS::RED & graphicsNS::ALPHA50);  
+		else
+			circle.draw(graphicsNS::ORANGE);
+
 		ship.draw();
+
+		if (ship.getCollision())             
+		{
+	
+			if (square.getCollision() && ship.getCollisionType() == entityNS::BOX)
+			{
+				angle = ship.getRadians();
+				ship.setRadians(0);
+				square.draw(ship.getSpriteInfo(), graphicsNS::RED & graphicsNS::ALPHA50);
+				ship.setRadians(angle);
+			}
+			else
+			{
+				if (ship.getCollisionType() == entityNS::ROTATED_BOX)
+					rectangle.draw(ship.getSpriteInfo(), graphicsNS::RED & graphicsNS::ALPHA50);
+
+				else if (ship.getCollisionType() == entityNS::BOX)
+					square.draw(ship.getSpriteInfo(), graphicsNS::RED & graphicsNS::ALPHA50);
+	
+				else if (ship.getCollisionType() == entityNS::CIRCLE)
+					circle.draw(ship.getSpriteInfo(), graphicsNS::RED & graphicsNS::ALPHA50);
+			}
+
+			lineRadians = std::atan2(lineEnds[1].y - lineEnds[0].y, lineEnds[1].x - lineEnds[0].x);
+			line.setRadians(lineRadians);
+			AxBx = lineEnds[0].x - lineEnds[1].x;
+			AyBy = lineEnds[0].y - lineEnds[1].y;
+			lineLength = std::sqrt(AxBx*AxBx + AyBy * AyBy);
+			RECT rect = line.getSpriteDataRect();
+			rect.right = (LONG)(LINE_LENGTH + lineLength / LINE_SCALE);
+			line.setSpriteDataRect(rect);
+			line.setX(lineEnds[0].x - LINE_LENGTH * LINE_SCALE);
+			line.setY(lineEnds[0].y - LINE_LENGTH * LINE_SCALE);
+			line.draw(graphicsNS::CYAN);
+		}
+		else    
+		{
+
+			if (ship.getCollisionType() == entityNS::ROTATED_BOX)
+				rectangle.draw(ship.getSpriteInfo(), graphicsNS::ALPHA50);
+
+			else if (ship.getCollisionType() == entityNS::BOX)
+			{
+				angle = ship.getRadians();
+				ship.setRadians(0);
+				square.draw(ship.getSpriteInfo(), graphicsNS::ALPHA50);
+				ship.setRadians(angle);
+			}
+			else if (ship.getCollisionType() == entityNS::CIRCLE)
+				circle.draw(ship.getSpriteInfo(), graphicsNS::ALPHA50);
+		}
 	}
 	graphics->spriteEnd();
 }

@@ -75,6 +75,8 @@ bool Entity::collideCircle(Entity & ent, VECTOR2 & collisionVector)
 	if (distSquared.x+ distSquared.y <= sumRadiiSquared)
 	{
 		collisionVector = *ent.getCenter() - *getCenter();
+		collisionCenter = *getCenter();
+		ent.setCollisionCenter(*ent.getCenter());
 		return true;
 	}
 	return false;
@@ -90,6 +92,8 @@ bool Entity::collideBox(Entity & ent, VECTOR2 & collisionVector)
 		(getCenterY() + edge.top*getScale() <= ent.getCenterY() + ent.getEdge().bottom*ent.getScale()) )
 	{
 		collisionVector = *ent.getCenter() - *getCenter();
+		collisionCenter = *getCenter();
+		ent.setCollisionCenter(*ent.getCenter());
 		return true;
 	}
 	return false;
