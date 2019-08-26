@@ -129,6 +129,7 @@
     <ClInclude Include="..\Engine\input.h" />
     <ClInclude Include="..\Engine\textureManager.h" />
     <ClInclude Include="ball.h" />
+    <ClInclude Include="block.h" />
     <ClInclude Include="gravity.h" />
     <ClInclude Include="paddle.h" />
   </ItemGroup>
@@ -140,6 +141,7 @@
     <ClCompile Include="..\Engine\input.cpp" />
     <ClCompile Include="..\Engine\textureManager.cpp" />
     <ClCompile Include="ball.cpp" />
+    <ClCompile Include="block.cpp" />
     <ClCompile Include="gravity.cpp" />
     <ClCompile Include="paddle.cpp" />
     <ClCompile Include="winmain.cpp" />

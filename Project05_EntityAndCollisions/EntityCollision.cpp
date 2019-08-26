@@ -84,7 +84,6 @@ void EntityCollision::collisions()
 
 		ship.bounce(collisionVector, ship1);
 		ship.damage(SHIP);
-		//ship1.bounce((collisionVector*-1), ship);
 		collisionVector *= -1;
 		ship1.bounce(collisionVector, ship);
 		ship1.damage(SHIP);
