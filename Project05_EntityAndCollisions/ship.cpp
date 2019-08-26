@@ -19,6 +19,24 @@ Ship::Ship() : Entity()
     collisionType = entityNS::CIRCLE;
 }
 
+void Ship::draw()
+{
+	Image::draw();
+	if (shieldOn)
+		shield.draw(spriteData, graphicsNS::ALPHA50& colorFilter);
+
+}
+
+bool Ship::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM)
+{
+	shield.initialize(gamePtr->getGraphics(),width,height,ncols,textureM);
+	shield.setFrames(24, 27);
+	shield.setCurrentFrame(24);
+	shield.setFrameDelay(.1f);
+	shield.setLoop(false);
+	return (Entity::initialize(gamePtr,width,height,ncols,textureM));
+}
+
 void Ship::update(float frameTime)
 {
     Entity::update(frameTime);
@@ -47,4 +65,18 @@ void Ship::update(float frameTime)
         spriteData.y = 0;                       
         velocity.y = -velocity.y;              
     }
+	if (shieldOn)
+	{
+		shield.update(frameTime);
+		if (shield.getAnimationComplete())
+		{
+			shieldOn = false;
+			shield.setAnimationComplete(false);
+		}
+	}
+}
+
+void Ship::damage(WEAPON)
+{
+	shieldOn = true;
 }

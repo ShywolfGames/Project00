@@ -12,7 +12,7 @@ const char NEBULA_IMAGE[] = "pictures\\orion.jpg";
 const char PLANET_IMAGE[] = "pictures\\planet.png"; 
 const char SHIP_IMAGE[]   = "pictures\\ship.png";
 const char TEXTURES_IMAGE[] = "pictures\\textures.png";
-enum WEAPON { TORPEDO, SHIP, PLANET };
+
 
 const UCHAR SHIP_LEFT_KEY = VK_LEFT;     // left arrow
 const UCHAR SHIP_RIGHT_KEY = VK_RIGHT;    // right arrow
@@ -28,6 +28,7 @@ private:
 	Planet planet;
 	Image nebula;
 	Ship ship;
+	Ship ship1;
 
 public:
 	EntityCollision();

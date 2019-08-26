@@ -11,7 +11,7 @@ const char GAME_TITLE[] = "DirectX Window";
 const bool FULLSCREEN = false;
 const UINT GAME_WIDTH = 640;
 const UINT GAME_HEIGHT = 480;
-#define TRANSCOLOR  SETCOLOR_ARGB(0,255,0,255)  // transparent color (magenta)
+//#define TRANSCOLOR  SETCOLOR_ARGB(0,255,0,255)  // transparent color (magenta)
 
 const double PI = 3.14159265;
 const float FRAME_RATE = 200.0f;

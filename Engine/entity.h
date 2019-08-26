@@ -10,6 +10,7 @@ namespace entityNS
 	enum COLLISION_TYPE{NONE,CIRCLE,BOX,ROTATED_BOX};
 	const float GRAVITY = 6.67428e-11f;
 }
+enum WEAPON { TORPEDO, SHIP, PLANET };
 
 class Entity : public Image
 {

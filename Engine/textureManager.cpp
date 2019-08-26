@@ -21,7 +21,7 @@ bool TextureManager::initialize(Graphics * g, const char * f)
 	{
 		graphics = g;
 		file = f;
-		hr = graphics->loadTexture(file, TRANSCOLOR, width, height, texture);
+		hr = graphics->loadTexture(file, graphicsNS::TRANSCOLOR, width, height, texture);
 		if (FAILED(hr))
 		{
 			safeRelease(texture);
@@ -47,6 +47,6 @@ void TextureManager::onResetDevice()
 {
 	if (!initialized)
 		return;
-	graphics->loadTexture(file, TRANSCOLOR, width, height, texture);
+	graphics->loadTexture(file, graphicsNS::TRANSCOLOR, width, height, texture);
 
 }
