@@ -7,7 +7,7 @@
 
 namespace entityNS
 {
-	enum COLLISION_TYPE{NONE,CIRCLE,BOX,ROTATED_BOX};
+	enum COLLISION_TYPE{NONE,CIRCLE,BOX,ROTATED_BOX, PIXEL_PERFECT};
 	const float GRAVITY = 6.67428e-11f;
 }
 enum WEAPON { TORPEDO, SHIP, PLANET };
@@ -35,13 +35,15 @@ protected:
 	Input   *input;        
 	HRESULT hr;           
 	bool    active;         
-	bool    rotatedBoxReady;   
+	bool    rotatedBoxReady;  
+	DWORD   pixelsColliding;
 	virtual bool collideCircle(Entity &ent, VECTOR2 &collisionVector);
 	virtual bool collideBox(Entity &ent, VECTOR2 &collisionVector);
 	virtual bool collideRotateBox(Entity &ent, VECTOR2 &collisionVector);
 	virtual bool collideRotatedBoxCircle(Entity &ent, VECTOR2 &collisionVector);
 	void computeRotatedBox();
 	bool projectionsOverlap(Entity &ent);
+	bool projectionsOverlap(Entity &ent, VECTOR2 &collisionVector);
 	bool collideCornerCircle(VECTOR2 corner, Entity &ent, VECTOR2 &collisionVector);
 	bool collidePixelPerfect(Entity &ent, VECTOR2 &collisionVector);
 public:
@@ -87,6 +89,8 @@ public:
 
 	// Return collision type (NONE, CIRCLE, BOX, ROTATED_BOX)
 	virtual entityNS::COLLISION_TYPE getCollisionType() { return collisionType; }
+	virtual DWORD getpixelsColliding() const { return pixelsColliding; }
+
 	virtual void setCollisionCenter(VECTOR2 cc) { collisionCenter = cc; }
 	virtual void  setVelocity(VECTOR2 v) { velocity = v; }
 	virtual void  setDeltaV(VECTOR2 dv) { deltaV = dv; }
@@ -95,6 +99,12 @@ public:
 	virtual void  setMass(float m) { mass = m; }
 	virtual void  setGravity(float g) { gravity = g; }
 	virtual void  setCollisionRadius(float r) { radius = r; }
+	virtual void setCollisionType(entityNS::COLLISION_TYPE ctype)
+	{
+		collisionType = ctype;
+	}
+	virtual void setEdge(RECT e) { edge = e; }
+	virtual void setRotatedBoxReady(bool r) { rotatedBoxReady = r; }
 
 	virtual void update(float frameTime);
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols,

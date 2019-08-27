@@ -127,6 +127,9 @@ void CollisionTypes::update()
 	}
 	if (input->getCharIn() == '3')
 		ship.setCollisionType(entityNS::CIRCLE);
+	if (input->getCharIn() == '4')
+		ship.setCollisionType(entityNS::PIXEL_PERFECT);
+
 }
 void CollisionTypes::ai()
 {

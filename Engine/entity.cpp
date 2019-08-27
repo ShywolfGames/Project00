@@ -16,6 +16,7 @@ Entity::Entity()
 	collisionType = entityNS::CIRCLE;
 	health = 100;
 	gravity = entityNS::GRAVITY;
+	pixelsColliding = 0;
 }
 void Entity::update(float frameTime)
 {
@@ -50,6 +51,8 @@ bool Entity::collidesWith(Entity & ent, VECTOR2 & collisionVector)
 
 	if (collisionType == entityNS::BOX && ent.getCollisionType() == entityNS::BOX)
 		return collideBox(ent, collisionVector);
+	if (collisionType == entityNS::PIXEL_PERFECT || ent.getCollisionType() == entityNS::PIXEL_PERFECT)
+		return collidePixelPerfect(ent, collisionVector);
 
 	if (collisionType != entityNS::CIRCLE && ent.getCollisionType() != entityNS::CIRCLE)
 		return collideRotateBox(ent, collisionVector);
@@ -103,11 +106,9 @@ bool Entity::collideRotateBox(Entity & ent, VECTOR2 & collisionVector)
 {
 	computeRotatedBox();
 	ent.computeRotatedBox();
-	if (projectionsOverlap(ent) && ent.projectionsOverlap(*this))
-	{
-		collisionVector = *ent.getCenter() - *getCenter();
+	if (projectionsOverlap(ent, collisionVector) && ent.projectionsOverlap(*this, collisionVector))
 		return true;
-	}
+
 	return false;
 }
 
@@ -148,6 +149,81 @@ bool Entity::projectionsOverlap(Entity & ent)
 
 	return true;
 }
+bool Entity::projectionsOverlap(Entity & ent, VECTOR2 & collisionVector)
+{
+	float projection, min01, max01, min03, max03, minOverlap, minOverlap2;
+
+	projection = graphics->Vector2Dot(&edge01, ent.getCorner(0)); 
+	min01 = projection;
+	max01 = projection;
+
+	for (int c = 1; c < 4; c++)
+	{
+
+		projection = graphics->Vector2Dot(&edge01, ent.getCorner(c));
+		if (projection < min01)
+			min01 = projection;
+		else if (projection > max01)
+			max01 = projection;
+	}
+
+	if (min01 > edge01Max || max01 < edge01Min)
+		return false;                       
+
+	projection = graphics->Vector2Dot(&edge03, ent.getCorner(0)); 
+	min03 = projection;
+	max03 = projection;
+
+	for (int c = 1; c < 4; c++)
+	{
+		projection = graphics->Vector2Dot(&edge03, ent.getCorner(c));
+		if (projection < min03)
+			min03 = projection;
+		else if (projection > max03)
+			max03 = projection;
+	}
+	if (min03 > edge03Max || max03 < edge03Min) 
+		return false;                      
+
+	// for the other object. This code was contributed to the programming2dgames
+	// forum by user stbn. The technique is described at 
+	// www.metanetsoftware.com/technique/tutorialA.html
+	if (min01 < edge01Min)
+	{
+		minOverlap = max01 - edge01Min;
+		collisionVector = corners[1] - corners[0];
+		collisionCenter = corners[0];
+		ent.setCollisionCenter(corners[1]);
+	}
+	else
+	{
+		minOverlap = edge01Max - min01;
+		collisionVector = corners[0] - corners[1];
+		collisionCenter = corners[1];
+		ent.setCollisionCenter(corners[0]);
+	}
+	if (min03 < edge03Min)
+	{
+		minOverlap2 = max03 - edge03Min;
+		if (minOverlap2 < minOverlap)
+		{
+			collisionVector = corners[3] - corners[0];
+			collisionCenter = corners[0];
+			ent.setCollisionCenter(corners[3]);
+		}
+	}
+	else
+	{
+		minOverlap2 = edge03Max - min03;
+		if (minOverlap2 < minOverlap)
+		{
+			collisionVector = corners[0] - corners[3];
+			collisionCenter = corners[3];
+			ent.setCollisionCenter(corners[0]);
+		}
+	}
+	return true;                           
+}
 bool Entity::collideRotatedBoxCircle(Entity & ent, VECTOR2 & collisionVector)
 {
 	float min01;
@@ -156,6 +232,8 @@ bool Entity::collideRotatedBoxCircle(Entity & ent, VECTOR2 & collisionVector)
 	float max03;	
 	float center01; 
 	float center03;
+	float minOverlap;
+	float minOverlap2;
 
 	computeRotatedBox();             
 
@@ -180,7 +258,40 @@ bool Entity::collideRotatedBoxCircle(Entity & ent, VECTOR2 & collisionVector)
 	if (center01 < edge01Min && center03 > edge03Max)   
 		return collideCornerCircle(corners[3], ent, collisionVector);
 
-	collisionVector = *ent.getCenter() - *getCenter();
+	if (min01 < edge01Min)
+	{
+		minOverlap = max01 - edge01Min;
+		collisionVector = corners[1] - corners[0];
+		collisionCenter = corners[0];
+		ent.setCollisionCenter(corners[1]);
+	}
+	else
+	{
+		minOverlap = edge01Max - min01;
+		collisionVector = corners[0] - corners[1];
+		collisionCenter = corners[1];
+		ent.setCollisionCenter(corners[0]);
+	}
+	if (min03 < edge03Min)
+	{
+		minOverlap2 = max03 - edge03Min;
+		if (minOverlap2 < minOverlap)
+		{
+			collisionVector = corners[3] - corners[0];
+			collisionCenter = corners[0];
+			ent.setCollisionCenter(corners[3]);
+		}
+	}
+	else
+	{
+		minOverlap2 = edge03Max - min03;
+		if (minOverlap2 < minOverlap)
+		{
+			collisionVector = corners[0] - corners[3];
+			collisionCenter = corners[3];
+			ent.setCollisionCenter(corners[0]);
+		}
+	}
 	return true;
 }
 
@@ -240,6 +351,8 @@ bool Entity::collideCornerCircle(VECTOR2 corner, Entity & ent, VECTOR2 & collisi
 	if (distSquared.x + distSquared.y <= sumRadiiSquared)
 	{
 		collisionVector = *ent.getCenter() - corner;
+		collisionCenter = corner;
+		ent.setCollisionCenter(*ent.getCenter());
 		return true;
 	}
 	return false;
@@ -247,6 +360,23 @@ bool Entity::collideCornerCircle(VECTOR2 corner, Entity & ent, VECTOR2 & collisi
 
 bool Entity::collidePixelPerfect(Entity & ent, VECTOR2 & collisionVector)
 {
+	if (graphics->getStencilSupport() == false)  // if stencil not supported
+		return (collideCircle(ent, collisionVector));   // use CIRCLE collision
+
+	// get fresh texture because they may have been released
+	ent.spriteData.texture = ent.textureManager->getTexture();
+	spriteData.texture = textureManager->getTexture();
+
+	// if pixels are colliding
+	pixelsColliding = graphics->pixelCollision(ent.getSpriteInfo(), this->getSpriteInfo());
+	if (pixelsColliding > 0)
+	{
+		// set collision vector to center of entity
+		collisionVector = *ent.getCenter() - *getCenter();
+		collisionCenter = *getCenter();
+		ent.setCollisionCenter(*ent.getCenter());
+		return true;
+	}
 	return false;
 }
 
@@ -273,13 +403,19 @@ void Entity::bounce(VECTOR2 & collisionVector, Entity & ent)
 	float massRatio = 2.0f;
 	if (getMass() != 0)
 		massRatio *= (ent.getMass() / (getMass() + ent.getMass()));
+	if (massRatio < 0.1f)
+		massRatio = 0.1f;
 
-	if (cUVdotVdiff > 0)
+	VECTOR2 cv;
+	int count = 10;   
+	do
 	{
-		setX(getX() - cUV.x * massRatio);
-		setY(getY() - cUV.y * massRatio);
-	}
-	else
+		setX(getX() - cUV.x);
+		setY(getY() - cUV.y);
+		rotatedBoxReady = false;
+		count--;
+	} while (this->collidesWith(ent, cv) && count);
+
 		deltaV += ((massRatio * cUVdotVdiff) * cUV);
 }
 

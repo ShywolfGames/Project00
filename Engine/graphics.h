@@ -78,10 +78,13 @@ private:
 
 	D3DPRESENT_PARAMETERS d3dpp;
 	D3DDISPLAYMODE pMode;
+	IDirect3DQuery9* pOcclusionQuery;   // for pixel perfect collision detection
+	DWORD   numberOfPixelsColliding;    // for pixel perfect collision detection
 
 	HRESULT result;
 	HWND hwnd;
 	bool fullscreen;
+	bool stencilSupport;
 	int width;
 	int height;
 	COLOR_ARGB backColor;
@@ -113,14 +116,15 @@ public:
 	static void     Vector2Normalize(VECTOR2 *v) { D3DXVec2Normalize(v, v); }
 	static VECTOR2* Vector2Transform(VECTOR2 *v, D3DXMATRIX *m) { return D3DXVec2TransformCoord(v, v, m); }
 
-
-
-	HRESULT begineScene()
+	DWORD pixelCollision(const SpriteData &sprite1, const SpriteData &sprite2);
+	IDirect3DQuery9* getPOcclusionQuery() { return pOcclusionQuery; }
+	bool getStencilSupport() { return stencilSupport; }
+	HRESULT beginScene()
 	{
 		result = E_FAIL;
 		if (device3d == NULL)
 			return result;
-		device3d->Clear(0, NULL, D3DCLEAR_TARGET, backColor, 1.0f, 0);
+		device3d->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_STENCIL | D3DCLEAR_ZBUFFER, backColor, 1.0f, 0);
 		result = device3d->BeginScene();
 		return result;
 	}

@@ -92,7 +92,7 @@ void Game::initialize(HWND hw)
 }
 void Game::renderGame()
 {
-	if (SUCCEEDED(graphics->begineScene()))
+	if (SUCCEEDED(graphics->beginScene()))
 	{
 		render();
 

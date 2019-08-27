@@ -8,9 +8,12 @@ Graphics::Graphics()
 	device3d = NULL;
 	sprite = NULL;
 	fullscreen = false;
+	stencilSupport = false;
 	width = GAME_WIDTH;
 	height = GAME_HEIGHT;
 	backColor = graphicsNS::BACK_COLOR;
+	pOcclusionQuery = NULL;
+	numberOfPixelsColliding = 0;
 }
 
 Graphics::~Graphics()
@@ -20,6 +23,7 @@ Graphics::~Graphics()
 
 void Graphics::releaseAll()
 {
+	safeRelease(pOcclusionQuery);
 	safeRelease(sprite);
 	safeRelease(device3d);
 	safeRelease(direct3d);
@@ -40,6 +44,8 @@ void Graphics::initD3Dpp()
 		d3dpp.hDeviceWindow = hwnd;
 		d3dpp.Windowed = (!fullscreen);
 		d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+		d3dpp.EnableAutoDepthStencil = true;
+		d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
 	}
 	catch (...)
 	{
@@ -82,12 +88,23 @@ void Graphics::initialize(HWND hw, int w, int h, bool full)
 
 	if(FAILED(result))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error Creating D3DSprite"));
+
+	if (FAILED(direct3d->CheckDeviceFormat(caps.AdapterOrdinal,
+		caps.DeviceType,
+		d3dpp.BackBufferFormat,
+		D3DUSAGE_DEPTHSTENCIL,
+		D3DRTYPE_SURFACE,
+		D3DFMT_D24S8)))
+		stencilSupport = false;
+	else
+		stencilSupport = true;
+	device3d->CreateQuery(D3DQUERYTYPE_OCCLUSION, &pOcclusionQuery);
+
 }
 
 HRESULT Graphics::showBackBuffer()
 {
 	result = E_FAIL;
-	//device3d->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 255, 0), 0.0f, 0);
 	result = device3d->Present(NULL, NULL, NULL, NULL);
 	return result;
 }
@@ -230,4 +247,56 @@ void Graphics::changeDisplayMode(graphicsNS::DISPLAY_MODE mode)
 			GAME_HEIGHT + (GAME_HEIGHT - clientRect.bottom), // Bottom
 			TRUE);                                       // Repaint the window
 	}
+}
+
+DWORD Graphics::pixelCollision(const SpriteData & sprite1, const SpriteData & sprite2)
+{
+	if (!stencilSupport)     // if no stencil buffer support
+		return 0;
+
+	beginScene();
+
+	// Set up stencil buffer using current entity
+	device3d->SetRenderState(D3DRS_STENCILENABLE, true);
+	device3d->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
+	device3d->SetRenderState(D3DRS_STENCILREF, 0x1);
+	device3d->SetRenderState(D3DRS_STENCILMASK, 0xffffffff);
+	device3d->SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);
+	device3d->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+	device3d->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
+
+	// Write a 1 into the stencil buffer for each non-transparent pixel in ent
+	spriteBegin();
+	// Enable stencil buffer (must be after spriteBegin)
+	device3d->SetRenderState(D3DRS_STENCILENABLE, true);
+	drawSprite(sprite2);            // write 1s to stencil buffer
+	spriteEnd();
+
+	// Change stencil buffer to only allow writes where the stencil value is 1
+	// (where the ent sprite is colliding with the current sprite)
+	device3d->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
+	device3d->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_KEEP);
+
+	// Begin occlusion query to count pixels that are drawn
+	pOcclusionQuery->Issue(D3DISSUE_BEGIN);
+
+	spriteBegin();
+	// Enable stencil buffer (must be after spriteBegin)
+	device3d->SetRenderState(D3DRS_STENCILENABLE, true);
+	drawSprite(sprite1);            // draw current entity 
+	spriteEnd();
+	// End occlusion query
+	pOcclusionQuery->Issue(D3DISSUE_END);
+
+	// Wait until the GPU is finished.
+	while (S_FALSE == pOcclusionQuery->GetData(&numberOfPixelsColliding,
+		sizeof(DWORD), D3DGETDATA_FLUSH))
+	{
+	}
+
+	// Turn off stencil
+	device3d->SetRenderState(D3DRS_STENCILENABLE, false);
+
+	endScene();
+	return numberOfPixelsColliding;
 }
