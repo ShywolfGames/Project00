@@ -12,7 +12,17 @@ const bool FULLSCREEN = false;
 const UINT GAME_WIDTH = 640;
 const UINT GAME_HEIGHT = 480;
 //#define TRANSCOLOR  SETCOLOR_ARGB(0,255,0,255)  // transparent color (magenta)
-
+/////
+const char WAVE_BANK[] = "audio\\Win\\WavesExample1.xwb";
+// SOUND_BANK must be location of .xsb file.
+const char SOUND_BANK[] = "audio\\Win\\SoundsExample1.xsb";
+// audio cues
+const char BEEP1[] = "beep1";
+const char BEEP2[] = "beep2";
+const char BEEP3[] = "beep3";
+const char BEEP4[] = "beep4";
+const char HIT[] = "hit";
+/////
 const double PI = 3.14159265;
 const float FRAME_RATE = 200.0f;
 const float MIN_FRAME_RATE = 10.0f;

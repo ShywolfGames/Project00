@@ -30,6 +30,7 @@ void Entity::update(float frameTime)
 bool Entity::initialize(Game * gamePtr, int width, int height, int ncols, TextureManager * textureM)
 {
 	input = gamePtr->getInput();
+	audio = gamePtr->getAudio();
 	return (Image::initialize(gamePtr->getGraphics(), width, height, ncols, textureM));
 }
 

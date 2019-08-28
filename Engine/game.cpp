@@ -6,6 +6,7 @@ Game::Game()
 	paused = false;
 	graphics = NULL;
 	initialized = false;
+	audio = NULL;
 }
 
 Game::~Game()
@@ -88,6 +89,19 @@ void Game::initialize(HWND hw)
 	if (QueryPerformanceFrequency(&timerFreq) == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing high resolution timer"));
 	QueryPerformanceCounter(&timeStart);
+	audio = new Audio();
+	if (*WAVE_BANK != '0' && *SOUND_BANK != '0')
+	{
+		if (FAILED(hr = audio->initialize()))
+		{
+			if (hr == HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND))
+				throw(GameError(gameErrorNS::FATAL_ERROR, "failed to init sound system because file not found"));
+			else
+				throw(GameError(gameErrorNS::FATAL_ERROR, "failed to init sound system "));
+
+		}
+
+	}
 	initialized = true;
 }
 void Game::renderGame()
@@ -160,7 +174,7 @@ void Game::run(HWND)
 	}
 	renderGame();
 	input->readControllers();
-
+	audio->run();
 	if (input->isKeyDown(ALT_KEY) && input->wasKeyPressed(ENTER_KEY))
 		setDisplayMode(graphicsNS::TOGGLE); 
 
@@ -181,6 +195,7 @@ void Game::resetAll()
 void Game::deleteAll()
 {
 	releaseAll();
+	safeDelete(audio);
 	safeDelete(graphics);
 	safeDelete(input);
 	initialized = false;

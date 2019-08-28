@@ -32,7 +32,8 @@ protected:
 	float   rr;             
 	float   force;         
 	float   gravity;      
-	Input   *input;        
+	Input   *input;     
+	Audio* audio;
 	HRESULT hr;           
 	bool    active;         
 	bool    rotatedBoxReady;  

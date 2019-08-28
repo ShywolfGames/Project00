@@ -8,12 +8,14 @@
 #include"input.h"
 #include"constants.h"
 #include"gameError.h"
-
+#include "audio.h"
 class Game
 {
 protected:
 	Graphics *graphics;
 	Input *input;
+	Audio* audio;
+
 	HWND hwnd;
 	HRESULT hr;
 	LARGE_INTEGER timeStart;
@@ -39,6 +41,7 @@ public:
 	Graphics * getGraphics() { return graphics; }
 	Input* getInput() { return input; }
 	void exitGame() { PostMessage(hwnd, WM_DESTROY, 0, 0); }
+	Audio * getAudio() { return audio; }
 	virtual void update() = 0;
 	virtual void ai() = 0;
 	virtual void collisions() = 0;
