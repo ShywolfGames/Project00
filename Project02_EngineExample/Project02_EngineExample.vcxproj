@@ -118,6 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Engine\audio.cpp" />
     <ClCompile Include="..\Engine\game.cpp" />
     <ClCompile Include="..\Engine\graphics.cpp" />
     <ClCompile Include="..\Engine\image.cpp" />
@@ -127,6 +128,7 @@
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Engine\audio.h" />
     <ClInclude Include="..\Engine\constants.h" />
     <ClInclude Include="..\Engine\game.h" />
     <ClInclude Include="..\Engine\gameError.h" />
