@@ -166,6 +166,51 @@ HRESULT Graphics::loadTexture(const char * filename, COLOR_ARGB transcolor, UINT
 	return result;
 }
 
+HRESULT Graphics::loadTextureSystemMem(const char * filename, COLOR_ARGB transcolor, UINT & width, UINT & height, LP_TEXTURE & texture)
+{
+	// The struct for reading bitmap file info
+	D3DXIMAGE_INFO info;
+	result = E_FAIL;        // Standard Windows return value
+
+	try {
+		if (filename == NULL)
+		{
+			texture = NULL;
+			return D3DERR_INVALIDCALL;
+		}
+
+		// Get width and height from bitmap file
+		result = D3DXGetImageInfoFromFile(filename, &info);
+		if (result != D3D_OK)
+			return result;
+		width = info.Width;
+		height = info.Height;
+
+		// Create the new texture by loading a bitmap image file
+		result = D3DXCreateTextureFromFileEx(
+			device3d,           //3D device
+			filename,           //bitmap filename
+			info.Width,         //bitmap image width
+			info.Height,        //bitmap image height
+			1,                  //mip-map levels (1 for no chain)
+			0,                  //usage
+			D3DFMT_UNKNOWN,     //surface format (default)
+			D3DPOOL_SYSTEMMEM,  //systemmem is lockable
+			D3DX_DEFAULT,       //image filter
+			D3DX_DEFAULT,       //mip filter
+			transcolor,         //color key for transparency
+			&info,              //bitmap file info (from loaded file)
+			NULL,               //color palette
+			&texture);         //destination texture
+
+	}
+	catch (...)
+	{
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error in Graphics::loadTexture"));
+	}
+	return result;
+}
+
 void Graphics::drawSprite(const SpriteData & spriteData, COLOR_ARGB color)
 {
 	if (spriteData.texture == NULL)

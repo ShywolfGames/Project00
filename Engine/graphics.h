@@ -106,6 +106,7 @@ public:
 
 
 	HRESULT loadTexture(const char* filename, COLOR_ARGB transcolor, UINT &width, UINT &height, LP_TEXTURE &texture);
+	HRESULT loadTextureSystemMem(const char *filename, COLOR_ARGB transcolor, UINT &width, UINT &height, LP_TEXTURE &texture);
 	void drawSprite(const SpriteData &spriteData, COLOR_ARGB color = graphicsNS::WHITE);
 	void changeDisplayMode(graphicsNS::DISPLAY_MODE mode = graphicsNS::TOGGLE);
 	LP_SPRITE getSprite() { return sprite; }
