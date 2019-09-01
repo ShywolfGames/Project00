@@ -18,7 +18,7 @@ class Graphics;
 #define LP_TEXTURE LPDIRECT3DTEXTURE9
 #define LP_SPRITE LPD3DXSPRITE
 #define VECTOR2     D3DXVECTOR2
-
+#define LP_DXFONT   LPD3DXFONT
 
 #define COLOR_ARGB DWORD
 #define SETCOLOR_ARGB(a,r,g,b)\
