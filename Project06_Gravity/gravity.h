@@ -14,7 +14,7 @@ const char BALL_IMAGE[] = "pictures\\ball.png";
 const char PADDLE_IMAGE[]   = "pictures\\paddle.png";
 const char BLOCK_IMAGE[] = "pictures\\paddle.png";
 
-const UCHAR CONSOLE_KEY = '`';         // ` key
+
 const UCHAR LEFT_KEY = VK_LEFT;      // left arrow
 const UCHAR RIGHT_KEY = VK_RIGHT;     // right arrow
 

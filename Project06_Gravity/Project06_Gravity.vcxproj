@@ -121,6 +121,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\audio.h" />
+    <ClInclude Include="..\Engine\console.h" />
     <ClInclude Include="..\Engine\constants.h" />
     <ClInclude Include="..\Engine\entity.h" />
     <ClInclude Include="..\Engine\game.h" />
@@ -128,6 +129,7 @@
     <ClInclude Include="..\Engine\graphics.h" />
     <ClInclude Include="..\Engine\image.h" />
     <ClInclude Include="..\Engine\input.h" />
+    <ClInclude Include="..\Engine\textDX.h" />
     <ClInclude Include="..\Engine\textureManager.h" />
     <ClInclude Include="ball.h" />
     <ClInclude Include="block.h" />
@@ -136,11 +138,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Engine\audio.cpp" />
+    <ClCompile Include="..\Engine\console.cpp" />
     <ClCompile Include="..\Engine\entity.cpp" />
     <ClCompile Include="..\Engine\game.cpp" />
     <ClCompile Include="..\Engine\graphics.cpp" />
     <ClCompile Include="..\Engine\image.cpp" />
     <ClCompile Include="..\Engine\input.cpp" />
+    <ClCompile Include="..\Engine\textDX.cpp" />
     <ClCompile Include="..\Engine\textureManager.cpp" />
     <ClCompile Include="ball.cpp" />
     <ClCompile Include="block.cpp" />

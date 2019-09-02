@@ -121,18 +121,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Engine\audio.cpp" />
+    <ClCompile Include="..\Engine\console.cpp" />
     <ClCompile Include="..\Engine\entity.cpp" />
     <ClCompile Include="..\Engine\game.cpp" />
     <ClCompile Include="..\Engine\graphics.cpp" />
     <ClCompile Include="..\Engine\image.cpp" />
     <ClCompile Include="..\Engine\input.cpp" />
     <ClCompile Include="..\Engine\text.cpp" />
+    <ClCompile Include="..\Engine\textDX.cpp" />
     <ClCompile Include="..\Engine\textureManager.cpp" />
     <ClCompile Include="FontApp.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\audio.h" />
+    <ClInclude Include="..\Engine\console.h" />
     <ClInclude Include="..\Engine\constants.h" />
     <ClInclude Include="..\Engine\entity.h" />
     <ClInclude Include="..\Engine\game.h" />
@@ -141,6 +144,7 @@
     <ClInclude Include="..\Engine\image.h" />
     <ClInclude Include="..\Engine\input.h" />
     <ClInclude Include="..\Engine\text.h" />
+    <ClInclude Include="..\Engine\textDX.h" />
     <ClInclude Include="..\Engine\textureManager.h" />
     <ClInclude Include="FontApp.h" />
   </ItemGroup>

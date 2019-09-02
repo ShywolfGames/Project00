@@ -10,6 +10,7 @@
 #include"gameError.h"
 #include "audio.h"
 #include "textDX.h"
+#include "console.h"
 namespace gameNS
 {
 	const char FONT[] = "Courier New"; 
@@ -23,7 +24,7 @@ protected:
 	Graphics *graphics;
 	Input *input;
 	Audio* audio;
-
+	Console *console;
 	HWND hwnd;
 	HRESULT hr;
 	LARGE_INTEGER timeStart;
@@ -34,6 +35,7 @@ protected:
 	float fps;
 	TextDX dxFont;
 	bool fpsOn;
+	std::string command;
 
 	DWORD sleepTime;
 	bool paused;
@@ -54,6 +56,7 @@ public:
 	Input* getInput() { return input; }
 	void exitGame() { PostMessage(hwnd, WM_DESTROY, 0, 0); }
 	Audio * getAudio() { return audio; }
+	virtual void consoleCommand();
 	virtual void update() = 0;
 	virtual void ai() = 0;
 	virtual void collisions() = 0;

@@ -9,6 +9,7 @@ Game::Game()
 	audio = NULL;
 	fps = 100;
 	fpsOn = true;
+	console = NULL;
 
 }
 
@@ -89,6 +90,10 @@ void Game::initialize(HWND hw)
 	graphics = new Graphics();
 	graphics->initialize(hwnd, GAME_WIDTH, GAME_HEIGHT, FULLSCREEN);
 	input->initialize(hwnd, false);
+	console = new Console();
+	console->initialize(graphics, input);
+	console->print("---Console---");
+
 	if (dxFont.initialize(graphics, gameNS::POINT_SIZE, false, false, gameNS::FONT) == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize DirectX font."));
 	dxFont.setFontColor(gameNS::FONT_COLOR);
@@ -127,7 +132,7 @@ void Game::renderGame()
 			dxFont.print(buffer, GAME_WIDTH - 100, GAME_HEIGHT - 28);
 		}
 		graphics->spriteEnd();      
-
+		console->draw();
 		graphics->endScene();
 	}
 	handleLostGraphicsDevice();
@@ -163,6 +168,28 @@ void Game::setDisplayMode(graphicsNS::DISPLAY_MODE mode)
 	graphics->changeDisplayMode(mode);
 	resetAll();                     
 }
+void Game::consoleCommand()
+{
+	command = console->getCommand();   
+	if (command == "")                   
+		return;
+
+	if (command == "help")              
+	{
+		console->print("Console Commands:");
+		console->print("fps - toggle display of frames per second");
+		return;
+	}
+
+	if (command == "fps")
+	{
+		fpsOn = !fpsOn;                 
+		if (fpsOn)
+			console->print("fps On");
+		else
+			console->print("fps Off");
+	}
+}
 void Game::run(HWND)
 {
 	if (graphics == NULL)
@@ -191,6 +218,15 @@ void Game::run(HWND)
 		input->vibrateControllers(frameTime);
 	}
 	renderGame();
+
+	if (input->getCharIn()== CONSOLE_KEY)
+	{
+		//input->clearCharIn();
+		console->showHide();
+		paused = console->getVisible();
+	}
+	consoleCommand();
+
 	input->readControllers();
 	audio->run();
 	if (input->isKeyDown(ALT_KEY) && input->wasKeyPressed(ENTER_KEY))

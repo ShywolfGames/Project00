@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{0709513B-1AF8-4364-A587-FC9BE9DB09EE}</ProjectGuid>
-    <RootNamespace>Project08GameAudio</RootNamespace>
+    <ProjectGuid>{B6B06B3C-1AC2-450F-B128-334FFEA6A5B7}</ProjectGuid>
+    <RootNamespace>Project12AddConsole</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -120,6 +120,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Engine\audio.cpp" />
+    <ClCompile Include="..\Engine\console.cpp" />
+    <ClCompile Include="..\Engine\entity.cpp" />
+    <ClCompile Include="..\Engine\game.cpp" />
+    <ClCompile Include="..\Engine\graphics.cpp" />
+    <ClCompile Include="..\Engine\image.cpp" />
+    <ClCompile Include="..\Engine\input.cpp" />
+    <ClCompile Include="..\Engine\text.cpp" />
+    <ClCompile Include="..\Engine\textDX.cpp" />
+    <ClCompile Include="..\Engine\textureManager.cpp" />
+    <ClCompile Include="AddConsole.cpp" />
+    <ClCompile Include="winmain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="..\Engine\audio.h" />
     <ClInclude Include="..\Engine\console.h" />
     <ClInclude Include="..\Engine\constants.h" />
@@ -129,26 +143,10 @@
     <ClInclude Include="..\Engine\graphics.h" />
     <ClInclude Include="..\Engine\image.h" />
     <ClInclude Include="..\Engine\input.h" />
+    <ClInclude Include="..\Engine\text.h" />
     <ClInclude Include="..\Engine\textDX.h" />
     <ClInclude Include="..\Engine\textureManager.h" />
-    <ClInclude Include="GameAudio.h" />
-    <ClInclude Include="planet.h" />
-    <ClInclude Include="ship.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Engine\audio.cpp" />
-    <ClCompile Include="..\Engine\console.cpp" />
-    <ClCompile Include="..\Engine\entity.cpp" />
-    <ClCompile Include="..\Engine\game.cpp" />
-    <ClCompile Include="..\Engine\graphics.cpp" />
-    <ClCompile Include="..\Engine\image.cpp" />
-    <ClCompile Include="..\Engine\input.cpp" />
-    <ClCompile Include="..\Engine\textDX.cpp" />
-    <ClCompile Include="..\Engine\textureManager.cpp" />
-    <ClCompile Include="GameAudio.cpp" />
-    <ClCompile Include="planet.cpp" />
-    <ClCompile Include="ship.cpp" />
-    <ClCompile Include="winmain.cpp" />
+    <ClInclude Include="AddConsole.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

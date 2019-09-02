@@ -33,22 +33,22 @@
     <ClCompile Include="..\Engine\input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\textureManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FontApp.cpp">
+    <ClCompile Include="..\Engine\textDX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\textureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddConsole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="winmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\console.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\textDX.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,19 +77,19 @@
     <ClInclude Include="..\Engine\input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\textureManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Engine\text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FontApp.h">
+    <ClInclude Include="..\Engine\textDX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\textureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AddConsole.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\console.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\textDX.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

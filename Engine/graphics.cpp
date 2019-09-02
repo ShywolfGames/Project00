@@ -98,7 +98,11 @@ void Graphics::initialize(HWND hw, int w, int h, bool full)
 		stencilSupport = false;
 	else
 		stencilSupport = true;
+	device3d->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	device3d->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	device3d->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	device3d->CreateQuery(D3DQUERYTYPE_OCCLUSION, &pOcclusionQuery);
+
 
 }
 
@@ -127,6 +131,9 @@ HRESULT Graphics::reset()
 	initD3Dpp();
 	sprite->OnLostDevice();
 	result = device3d->Reset(&d3dpp);
+	device3d->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	device3d->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	device3d->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	sprite->OnResetDevice();
 	return result;
 }
@@ -292,6 +299,46 @@ void Graphics::changeDisplayMode(graphicsNS::DISPLAY_MODE mode)
 			GAME_HEIGHT + (GAME_HEIGHT - clientRect.bottom), // Bottom
 			TRUE);                                       // Repaint the window
 	}
+}
+
+HRESULT Graphics::createVertexBuffer(VertexC verts[], UINT size, LP_VERTEXBUFFER & vertexBuffer)
+{
+	HRESULT result = E_FAIL;
+
+	result = device3d->CreateVertexBuffer(size, D3DUSAGE_WRITEONLY, D3DFVF_VERTEX,
+		D3DPOOL_DEFAULT, &vertexBuffer, NULL);
+	if (FAILED(result))
+		return result;
+
+	void *ptr;
+	result = vertexBuffer->Lock(0, size, (void**)&ptr, 0);
+	if (FAILED(result))
+		return result;
+	memcpy(ptr, verts, size);  
+	vertexBuffer->Unlock();    
+
+	return result;
+}
+
+bool Graphics::drawQuad(LP_VERTEXBUFFER vertexBuffer)
+{
+	HRESULT result = E_FAIL;    
+
+	if (vertexBuffer == NULL)
+		return false;
+
+	device3d->SetRenderState(D3DRS_ALPHABLENDENABLE, true); 
+
+	device3d->SetStreamSource(0, vertexBuffer, 0, sizeof(VertexC));
+	device3d->SetFVF(D3DFVF_VERTEX);
+	result = device3d->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
+
+	device3d->SetRenderState(D3DRS_ALPHABLENDENABLE, false); 
+
+	if (FAILED(result))
+		return false;
+
+	return true;
 }
 
 DWORD Graphics::pixelCollision(const SpriteData & sprite1, const SpriteData & sprite2)

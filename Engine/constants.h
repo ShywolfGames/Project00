@@ -32,6 +32,7 @@ const float MAX_FRAME_TIME = 1.0f / MIN_FRAME_RATE;
 const UCHAR ESC_KEY = VK_ESCAPE;
 const UCHAR ALT_KEY = VK_MENU;
 const UCHAR ENTER_KEY = VK_RETURN;
+const UCHAR CONSOLE_KEY = '`';
 template<typename T>
 inline void safeRelease(T& ptr)
 {

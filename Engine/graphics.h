@@ -19,6 +19,7 @@ class Graphics;
 #define LP_SPRITE LPD3DXSPRITE
 #define VECTOR2     D3DXVECTOR2
 #define LP_DXFONT   LPD3DXFONT
+#define LP_VERTEXBUFFER LPDIRECT3DVERTEXBUFFER9
 
 #define COLOR_ARGB DWORD
 #define SETCOLOR_ARGB(a,r,g,b)\
@@ -55,6 +56,14 @@ namespace graphicsNS
 	const COLOR_ARGB TRANSCOLOR = MAGENTA;
 	enum DISPLAY_MODE { TOGGLE, FULLSCREEN, WINDOW };
 }
+struct VertexC              
+{
+	float x, y, z;          
+	float rhw;              
+	unsigned long color;    
+};
+#define D3DFVF_VERTEX (D3DFVF_XYZRHW | D3DFVF_DIFFUSE)
+
 struct SpriteData
 {
 	int width;
@@ -111,6 +120,9 @@ public:
 	void changeDisplayMode(graphicsNS::DISPLAY_MODE mode = graphicsNS::TOGGLE);
 	LP_SPRITE getSprite() { return sprite; }
 	bool    getFullscreen() { return fullscreen; }
+
+	HRESULT createVertexBuffer(VertexC verts[], UINT size, LP_VERTEXBUFFER &vertexBuffer);
+	bool    drawQuad(LP_VERTEXBUFFER vertexBuffer);
 
 	static float    Vector2Length(const VECTOR2 *v) { return D3DXVec2Length(v); }
 	static float    Vector2Dot(const VECTOR2 *v1, const VECTOR2 *v2) { return D3DXVec2Dot(v1, v2); }
