@@ -9,8 +9,8 @@
 const char CLASS_NAME[] = "WinMain";
 const char GAME_TITLE[] = "DirectX Window";
 const bool FULLSCREEN = false;
-const UINT GAME_WIDTH = 640;
-const UINT GAME_HEIGHT = 480;
+const UINT GAME_WIDTH = 1024;
+const UINT GAME_HEIGHT = 768;
 //#define TRANSCOLOR  SETCOLOR_ARGB(0,255,0,255)  // transparent color (magenta)
 /////
 const char WAVE_BANK[] = "audio\\Win\\WavesExample1.xwb";

@@ -7,6 +7,9 @@ Game::Game()
 	graphics = NULL;
 	initialized = false;
 	audio = NULL;
+	fps = 100;
+	fpsOn = true;
+
 }
 
 Game::~Game()
@@ -86,6 +89,10 @@ void Game::initialize(HWND hw)
 	graphics = new Graphics();
 	graphics->initialize(hwnd, GAME_WIDTH, GAME_HEIGHT, FULLSCREEN);
 	input->initialize(hwnd, false);
+	if (dxFont.initialize(graphics, gameNS::POINT_SIZE, false, false, gameNS::FONT) == false)
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize DirectX font."));
+	dxFont.setFontColor(gameNS::FONT_COLOR);
+
 	if (QueryPerformanceFrequency(&timerFreq) == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing high resolution timer"));
 	QueryPerformanceCounter(&timeStart);
@@ -106,9 +113,20 @@ void Game::initialize(HWND hw)
 }
 void Game::renderGame()
 {
+	const int BUF_SIZE = 20;
+	static char buffer[BUF_SIZE];
+
 	if (SUCCEEDED(graphics->beginScene()))
 	{
 		render();
+
+		graphics->spriteBegin();    
+		if (fpsOn)          
+		{
+			_snprintf_s(buffer, BUF_SIZE, "fps %d ", (int)fps);
+			dxFont.print(buffer, GAME_WIDTH - 100, GAME_HEIGHT - 28);
+		}
+		graphics->spriteEnd();      
 
 		graphics->endScene();
 	}

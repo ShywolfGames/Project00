@@ -9,6 +9,14 @@
 #include"constants.h"
 #include"gameError.h"
 #include "audio.h"
+#include "textDX.h"
+namespace gameNS
+{
+	const char FONT[] = "Courier New"; 
+	const int POINT_SIZE = 14;          
+	const COLOR_ARGB FONT_COLOR = SETCOLOR_ARGB(255, 255, 255, 255);    
+}
+
 class Game
 {
 protected:
@@ -22,7 +30,11 @@ protected:
 	LARGE_INTEGER timeEnd;
 	LARGE_INTEGER timerFreq;
 	float frameTime;
+
 	float fps;
+	TextDX dxFont;
+	bool fpsOn;
+
 	DWORD sleepTime;
 	bool paused;
 	bool initialized;
