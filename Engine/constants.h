@@ -11,17 +11,34 @@ const char GAME_TITLE[] = "DirectX Window";
 const bool FULLSCREEN = false;
 const UINT GAME_WIDTH = 1024;
 const UINT GAME_HEIGHT = 768;
+/////////////////////////////
+const float FULL_HEALTH = 100;
+const int SPACE_SCALE = 2;                 
+const int SPACE_WIDTH = 640 * SPACE_SCALE;  
+const int SPACE_HEIGHT = 480 * SPACE_SCALE; 
+const UINT MOON_SIZE = 64;                  
+const UINT MOON1_FRAME = 12;               
+const UINT NEBULA_SIZE = 128;               
+/////////////////////////////
 //#define TRANSCOLOR  SETCOLOR_ARGB(0,255,0,255)  // transparent color (magenta)
 /////
-const char WAVE_BANK[] = "audio\\Win\\WavesExample1.xwb";
+const char WAVE_BANK[] = "audio\\Win\\waveBank.xwb";
 // SOUND_BANK must be location of .xsb file.
-const char SOUND_BANK[] = "audio\\Win\\SoundsExample1.xsb";
+const char SOUND_BANK[] = "audio\\Win\\soundBank.xsb";
 // audio cues
-const char BEEP1[] = "beep1";
-const char BEEP2[] = "beep2";
-const char BEEP3[] = "beep3";
-const char BEEP4[] = "beep4";
-const char HIT[] = "hit";
+//const char BEEP1[] = "beep1";
+//const char BEEP2[] = "beep2";
+//const char BEEP3[] = "beep3";
+//const char BEEP4[] = "beep4";
+//const char HIT[] = "hit";
+const char CHEER[] = "cheer";
+const char COLLIDE[] = "collide";
+const char EXPLODE[] = "explode";
+const char ENGINE1[] = "engine1";
+const char ENGINE2[] = "engine2";
+const char TORPEDO_CRASH[] = "torpedoCrash";
+const char TORPEDO_FIRE[] = "torpedoFire";
+const char TORPEDO_HIT[] = "torpedoHit";
 /////
 const double PI = 3.14159265;
 const float FRAME_RATE = 200.0f;

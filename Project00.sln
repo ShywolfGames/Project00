@@ -31,6 +31,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project11_FontDemos", "Proj
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project12_AddConsole", "Project12_AddConsole\Project12_AddConsole.vcxproj", "{B6B06B3C-1AC2-450F-B128-334FFEA6A5B7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project13_ScrollingBitmap", "Project13_ScrollingBitmap\Project13_ScrollingBitmap.vcxproj", "{210AFAAB-249C-4F5E-8445-C579490F1761}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -151,6 +153,14 @@ Global
 		{B6B06B3C-1AC2-450F-B128-334FFEA6A5B7}.Release|x64.Build.0 = Release|x64
 		{B6B06B3C-1AC2-450F-B128-334FFEA6A5B7}.Release|x86.ActiveCfg = Release|Win32
 		{B6B06B3C-1AC2-450F-B128-334FFEA6A5B7}.Release|x86.Build.0 = Release|Win32
+		{210AFAAB-249C-4F5E-8445-C579490F1761}.Debug|x64.ActiveCfg = Debug|x64
+		{210AFAAB-249C-4F5E-8445-C579490F1761}.Debug|x64.Build.0 = Debug|x64
+		{210AFAAB-249C-4F5E-8445-C579490F1761}.Debug|x86.ActiveCfg = Debug|Win32
+		{210AFAAB-249C-4F5E-8445-C579490F1761}.Debug|x86.Build.0 = Debug|Win32
+		{210AFAAB-249C-4F5E-8445-C579490F1761}.Release|x64.ActiveCfg = Release|x64
+		{210AFAAB-249C-4F5E-8445-C579490F1761}.Release|x64.Build.0 = Release|x64
+		{210AFAAB-249C-4F5E-8445-C579490F1761}.Release|x86.ActiveCfg = Release|Win32
+		{210AFAAB-249C-4F5E-8445-C579490F1761}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
